@@ -1,0 +1,140 @@
+services:
+  db:
+    container_name: sqltestdb
+    image: mcr.microsoft.com/mssql/server
+    networks:
+      - TripInsights
+    ports: 
+    - "1433:1433"
+    environment:
+      - MSSQL_SA_PASSWORD=123#@!qweEWQ
+      - ACCEPT_EULA="Y"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "SA", "-P", "123#@!qweEWQ", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 10m
+      retries: 10
+      start_period: 30s     
+  
+  createdb:
+    container_name: createdb
+    image: mcr.microsoft.com/mssql/server
+    networks:
+      - TripInsights
+    ports: 
+    - "1434:1433"
+    environment:
+      - MSSQL_SA_PASSWORD=123#@!qweEWQ
+      - ACCEPT_EULA="Y"
+    command: "/opt/mssql-tools/bin/sqlcmd -S 'sqltestdb' -U 'SA' -P '123#@!qweEWQ' -Q 'CREATE DATABASE mydrivingDB'"
+    depends_on:
+      db: 
+        condition: service_healthy
+  
+  dataload:
+    container_name: dataload
+    image: openhack/data-load:v1
+    networks:
+      - TripInsights
+    environment:
+      - SQLFQDN=sqltestdb
+      - SQLUSER=SA
+      - SQLPASS=123#@!qweEWQ
+      - SQLDB=mydrivingDB
+    depends_on:
+      createdb: 
+        condition: service_completed_successfully  
+  poi-api:
+    container_name: poi-api
+    image: tripinsights/poi:1.0
+    build:
+      context: ./poi/
+      dockerfile: Dockerfile
+    networks:
+      - TripInsights
+    ports:
+      - "8080:80"
+    environment:
+      - SQL_PASSWORD=123#@!qweEWQ
+      - SQL_SERVER=sqltestdb
+      - SQL_USER=sa
+      - ASPNETCORE_ENVIRONMENT=Local
+    depends_on:
+      - db
+
+  trips-api:
+    container_name: trips-api
+    image: tripinsights/trips:1.0
+    build:
+      context: ./trips/
+      dockerfile: Dockerfile
+    networks:
+      - TripInsights
+    ports:
+      - "8081:80"
+    environment:
+      - SQL_PASSWORD=123#@!qweEWQ
+      - SQL_SERVER=sqltestdb
+      - SQL_USER=sa
+      - OPENAPI_DOCS_URI=http://temp
+    depends_on:
+      - db
+
+  userjava-api:
+    container_name: userjava-api
+    image: tripinsights/user-java:1.0
+    build:
+      context: ./user-java/
+      dockerfile: Dockerfile
+    networks:
+      - TripInsights
+    ports:
+      - "8082:80"
+    environment:
+      - SQL_PASSWORD=123#@!qweEWQ
+      - SQL_SERVER=sqltestdb
+      - SQL_USER=sa
+    depends_on:
+      - db
+
+  userprofile-api:
+    container_name: userprofile-api
+    image: tripinsights/userprofile:1.0
+    build:
+      context: ./userprofile/
+      dockerfile: Dockerfile
+    networks:
+      - TripInsights
+    ports:
+      - "8083:80"
+    environment:
+      - SQL_PASSWORD=123#@!qweEWQ
+      - SQL_SERVER=sqltestdb
+      - SQL_USER=sa
+    depends_on:
+      - db
+
+  tripviewer:
+    container_name: tripviewer
+    image: tripinsights/tripviewer:1.0
+    build:
+      context: ./tripviewer/
+      dockerfile: Dockerfile
+    networks:
+      - TripInsights
+    ports:
+      - "8084:80"
+    environment:
+      - USERPROFILE_API_ENDPOINT=http://localhost:8083
+      - TRIPS_API_ENDPOINT=http://localhost:8081
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - db
+      - poi-api
+      - trips-api
+      - userjava-api
+      - userprofile-api
+
+networks:
+  TripInsights:
+    driver: bridge
