@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trips-api
+  namespace: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: trips-api
+  template:
+    metadata:
+      labels:
+        app: trips-api
+    spec:
+      containers:
+      - name: trips-api
+        image: tripinsights/trips:1.0
+        resources:
+        ports:
+        - containerPort: 80

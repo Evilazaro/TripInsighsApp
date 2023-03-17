@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: userprofile-service
+  namespace: backend
+spec:
+  selector:
+    app: userprofile-api
+  ports:
+  - port: 80
+    targetPort: 80

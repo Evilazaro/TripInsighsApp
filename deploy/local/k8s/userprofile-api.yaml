@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userprofile-api
+  namespace: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: userprofile-api
+  template:
+    metadata:
+      labels:
+        app: userprofile-api
+    spec:
+      containers:
+      - name: userprofile-api
+        image: tripinsights/userprofile:1.0
+        resources:
+        ports:
+        - containerPort: 80
+        env:
+        - name: SQL_PASSWORD
+          value: 123#@!qweEWQ
+        - name: SQL_SERVER
+          value: sqltestdb
+        - name: SQL_USER
+          value: sa
