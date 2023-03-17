@@ -2,8 +2,10 @@ services:
   db:
     container_name: sqltestdb
     image: mcr.microsoft.com/mssql/server
+    volumes:
+      - sqldata:/opt/mssql/var/opt/mssql/data
     networks:
-      - TripInsights
+      - backend
     ports: 
     - "1433:1433"
     environment:
@@ -20,7 +22,7 @@ services:
     container_name: createdb
     image: mcr.microsoft.com/mssql/server
     networks:
-      - TripInsights
+      - backend
     ports: 
     - "1434:1433"
     environment:
@@ -35,7 +37,7 @@ services:
     container_name: dataload
     image: openhack/data-load:v1
     networks:
-      - TripInsights
+      - backend
     environment:
       - SQLFQDN=sqltestdb
       - SQLUSER=SA
@@ -51,7 +53,7 @@ services:
       context: ./poi/
       dockerfile: Dockerfile
     networks:
-      - TripInsights
+      - backend
     ports:
       - "8080:80"
     environment:
@@ -69,14 +71,14 @@ services:
       context: ./trips/
       dockerfile: Dockerfile
     networks:
-      - TripInsights
+      - backend
     ports:
       - "8081:80"
     environment:
       - SQL_PASSWORD=123#@!qweEWQ
       - SQL_SERVER=sqltestdb
       - SQL_USER=sa
-      - OPENAPI_DOCS_URI=http://temp
+      - OPENAPI_DOCS_URI=http://localhost
     depends_on:
       - db
 
@@ -87,7 +89,7 @@ services:
       context: ./user-java/
       dockerfile: Dockerfile
     networks:
-      - TripInsights
+      - backend
     ports:
       - "8082:80"
     environment:
@@ -104,7 +106,7 @@ services:
       context: ./userprofile/
       dockerfile: Dockerfile
     networks:
-      - TripInsights
+      - backend
     ports:
       - "8083:80"
     environment:
@@ -121,13 +123,15 @@ services:
       context: ./tripviewer/
       dockerfile: Dockerfile
     networks:
-      - TripInsights
+      - backend
+      - frontend
     ports:
       - "8084:80"
     environment:
-      - USERPROFILE_API_ENDPOINT=http://localhost:8083
-      - TRIPS_API_ENDPOINT=http://localhost:8081
+      - USERPROFILE_API_ENDPOINT=http://userprofile-api:80
+      - TRIPS_API_ENDPOINT=http://trips-api:80
       - ASPNETCORE_ENVIRONMENT=Development
+      - BING_MAPS_KEY=
     depends_on:
       - db
       - poi-api
@@ -136,5 +140,10 @@ services:
       - userprofile-api
 
 networks:
-  TripInsights:
+  frontend:
     driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  sqldata:
