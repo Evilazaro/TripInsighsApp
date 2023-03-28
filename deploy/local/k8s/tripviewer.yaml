@@ -4,7 +4,7 @@ metadata:
   name: tripviewer
   namespace: frontend
 spec:
-  replicas: 3
+  replicas: 10
   selector:
     matchLabels:
       app: tripviewer
