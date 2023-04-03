@@ -4,6 +4,7 @@ metadata:
   name: userjava-service
   namespace: backend
 spec:
+  type: ClusterIP
   selector:
     app: userjava-api
   ports:

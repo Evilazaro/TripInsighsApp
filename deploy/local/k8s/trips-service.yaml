@@ -4,6 +4,7 @@ metadata:
   name: trips-service
   namespace: backend
 spec:
+  type: ClusterIP
   selector:
     app: trips-api
   ports:

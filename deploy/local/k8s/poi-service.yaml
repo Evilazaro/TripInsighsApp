@@ -4,6 +4,7 @@ metadata:
   name: poi-service
   namespace: backend
 spec:
+  type: ClusterIP
   selector:
     app: poi-api
   ports:

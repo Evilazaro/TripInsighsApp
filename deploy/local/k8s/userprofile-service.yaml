@@ -4,6 +4,7 @@ metadata:
   name: userprofile-service
   namespace: backend
 spec:
+  type: ClusterIP
   selector:
     app: userprofile-api
   ports:
