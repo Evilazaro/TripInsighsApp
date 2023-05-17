@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: userjava-api
-        image: tripinsights/user-java:1.0
+        image: tripinsights/user-java:2.0
         resources:
         ports:
         - containerPort: 80

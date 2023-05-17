@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: poi-api
-        image: tripinsights/poi:1.0
+        image: tripinsights/poi:2.0
         resources:
         ports:
         - containerPort: 80

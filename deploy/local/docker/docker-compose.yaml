@@ -49,7 +49,7 @@ services:
   
   poi-api:
     container_name: poi-api
-    image: tripinsights/poi:1.0
+    image: tripinsights/poi:2.0
     build:
       context: ../../../src/poi/
       dockerfile: Dockerfile
@@ -67,7 +67,7 @@ services:
 
   trips-api:
     container_name: trips-api
-    image: tripinsights/trips:1.0
+    image: tripinsights/trips:2.0
     build:
       context: ../../../src/trips/
       dockerfile: Dockerfile
@@ -85,7 +85,7 @@ services:
 
   userjava-api:
     container_name: userjava-api
-    image: tripinsights/user-java:1.0
+    image: tripinsights/user-java:2.0
     build:
       context: ../../../src/user-java/
       dockerfile: Dockerfile
@@ -102,7 +102,7 @@ services:
 
   userprofile-api:
     container_name: userprofile-api
-    image: tripinsights/userprofile:1.0
+    image: tripinsights/userprofile:2.0
     build:
       context: ../../../src/userprofile/
       dockerfile: Dockerfile
@@ -119,7 +119,7 @@ services:
 
   tripviewer:
     container_name: tripviewer
-    image: tripinsights/tripviewer:1.0
+    image: tripinsights/tripviewer:2.0
     build:
       context: ../../../src/tripviewer/
       dockerfile: Dockerfile
