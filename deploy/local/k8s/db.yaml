@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqltestdb-deployment
+  namespace: db
+spec:
+  selector:
+    matchLabels:
+      app: sqltestdb
+  template:
+    metadata:
+      labels:
+        app: sqltestdb
+    spec:
+      containers:
+      - name: sqltestdb
+        image: mcr.microsoft.com/mssql/server
+        ports:  
+        - name: sql-port
+          containerPort: 1433
+        readinessProbe:
+          exec:
+            command: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "SA", "-P", "123#@!qweEWQ", "-Q", "CREATE DATABASE 'mydrivingDB'"]
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+        env:
+          - name: MSSQL_SA_PASSWORD
+            value: "123#@!qweEWQ"
+          - name: ACCEPT_EULA
+            value: "Y"
+
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-deployment
+spec:
+  selector:
+    app: sqltestdb
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
+  type: LoadBalancer

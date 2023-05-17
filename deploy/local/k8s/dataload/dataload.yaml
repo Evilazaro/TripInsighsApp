@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-load
+  namespace: db
+spec:
+  selector:
+    matchLabels:
+      app: data-load
+  template:
+    metadata:
+      labels:
+        app: data-load
+    spec:
+      containers:
+      - name: data-load
+        image: openhack/data-load:v1
+        ports:
+        - containerPort: 1433
+        resources:
+        env:
+          - name: SQLFQDN
+            value: mssql-deployment.db.svc.cluster-local
+          - name: SQLUSER
+            value: "SA"
+          - name: SQLPASS
+            value: "123#@!qweEWQ"
+          - name: SQLDB
+            value: "mydrivingDB"
+        

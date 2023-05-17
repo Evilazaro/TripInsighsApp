@@ -19,3 +19,10 @@ spec:
         resources:
         ports:
         - containerPort: 80
+        env:
+          - name: SQL_PASSWORD
+            value: 123#@!qweEWQ
+          - name: SQL_SERVER
+            value: sqltestdb
+          - name: SQL_USER
+            value: sa
