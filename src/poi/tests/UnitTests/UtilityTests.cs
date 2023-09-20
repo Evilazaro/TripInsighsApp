@@ -1,5 +1,5 @@
-﻿using Xunit;
-using poi.Utility;
+﻿using poi.Utility;
+using Xunit;
 
 namespace UnitTests
 {

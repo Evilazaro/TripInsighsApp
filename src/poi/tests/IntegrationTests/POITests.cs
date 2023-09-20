@@ -1,15 +1,10 @@
 using System;
-using Xunit;
-using poi.Controllers;
 using poi.Models;
-using poi;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Xunit;
+using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace IntegrationTests
 {

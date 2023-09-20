@@ -31,7 +31,7 @@ namespace IntegrationTests
             services.AddMvc()
                 .AddJsonOptions(options =>
                 {
-                    options.SerializerSettings.Formatting = Formatting.Indented;
+                    options.JsonSerializerOptions.WriteIndented = true;
                 });
 
                 // Create a new service provider.
@@ -54,7 +54,7 @@ namespace IntegrationTests
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                app.UseDirectoryBrowser();
             }
 
             app.UseMvc();

@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Prometheus;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Swashbuckle.Swagger;
 
 namespace poi
 {
@@ -36,7 +37,7 @@ namespace poi
             services.AddMvc()
                 .AddJsonOptions(options =>
                 {
-                    options.SerializerSettings.Formatting = Formatting.Indented;
+                    options.JsonSerializerOptions.WriteIndented = true;
                 });
 
             var connectionString = poi.Utility.POIConfiguration.GetConnectionString(this.Configuration);
@@ -46,7 +47,7 @@ namespace poi
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("docs", new Info { Title = "Trip Insights Points Of Interest (POI) API", Description = "API for the trips in the Trip Insights app. https://github.com/Azure-Samples/openhack-containers", Version = "v1" });
+                c.SwaggerDoc("docs", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Trip Insights Points Of Interest (POI) API", Description = "API for the trips in the Trip Insights app. https://github.com/Azure-Samples/openhack-containers", Version = "1.0.0"});
             });
         }
 
@@ -60,7 +61,7 @@ namespace poi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                app.UseDirectoryBrowser();
             }else{
                 // https://github.com/prometheus-net/prometheus-net#aspnet-core-http-request-metrics
                 // "You should use either UseExceptionHandler() or a custom exception handler middleware. 
