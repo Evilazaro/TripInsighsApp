@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
+    using System.Net.Http.Json;
     using System.Threading.Tasks;
 
     public class TripPointStore : BaseStore//, IBaseStore<TripPoint>
@@ -21,7 +22,7 @@
             if (response.IsSuccessStatusCode)
             {
                 response.Content.Headers.ContentType.MediaType = "application/json";
-                tripPoint = await response.Content.ReadAsAsync<TripPoint>();
+                tripPoint = await response.Content.ReadFromJsonAsync<TripPoint>();
             }
             return tripPoint;
         }
@@ -34,7 +35,7 @@
             if (response.IsSuccessStatusCode)
             {
                 response.Content.Headers.ContentType.MediaType = "application/json";
-                tripPoint = await response.Content.ReadAsAsync<TripPoint>();
+                tripPoint = await response.Content.ReadFromJsonAsync<TripPoint>();
             }
             return tripPoint;
         }
@@ -51,7 +52,7 @@
             if (response.IsSuccessStatusCode)
             {
                 response.Content.Headers.ContentType.MediaType = "application/json";
-                tripPoints = await response.Content.ReadAsAsync<List<TripPoint>>();
+                tripPoints = await response.Content.ReadFromJsonAsync<List<TripPoint>>();
             }
             return tripPoints;
         }
@@ -63,7 +64,7 @@
             response.EnsureSuccessStatusCode();
             response.Content.Headers.ContentType.MediaType = "application/json";
 
-            item = await response.Content.ReadAsAsync<TripPoint>();
+            item = await response.Content.ReadFromJsonAsync<TripPoint>();
 
             return item;
         }

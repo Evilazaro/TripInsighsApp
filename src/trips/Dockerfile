@@ -1,5 +1,5 @@
 # builder - first stage to build the application
-FROM golang:1.17.1 AS gobuild
+FROM golang AS gobuild
 
 WORKDIR /go/src/app
 COPY . .
@@ -9,7 +9,7 @@ RUN go get
 RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
 # runtime - build final runtime image
-FROM alpine:3.10 AS gorun
+FROM ubuntu AS gorun
 
 ARG IMAGE_CREATE_DATE
 ARG IMAGE_VERSION
@@ -36,14 +36,6 @@ LABEL org.opencontainers.image.title="Trip Insights - Trips API" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.source="https://github.com/Azure-Samples/openhack-containers.git" \
       org.opencontainers.image.revision=$IMAGE_SOURCE_REVISION 
-
-# add debugging utilities
-RUN apk --no-cache add \
-  curl \
-  ca-certificates \
-  jq \
-  less \
-  vim
 
 # add the application to the container
 WORKDIR /app

@@ -1,7 +1,7 @@
 # 
 # builder - first stage to build the application
 # 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
@@ -38,7 +38,7 @@ COPY ./web/appsettings.json /app/web/out/
 # 
 # runtime - build final runtime image
 # 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2.6-alpine3.9
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 
 ARG IMAGE_CREATE_DATE
 ARG IMAGE_VERSION
@@ -68,14 +68,6 @@ LABEL org.opencontainers.image.title="Trip Insights - POI (Points Of Interest) A
       org.opencontainers.image.source="https://github.com/Azure-Samples/openhack-containers.git" \
       org.opencontainers.image.revision=$IMAGE_SOURCE_REVISION 
 
-# add debugging utilities
-RUN apk --no-cache add \
-  curl \
-  ca-certificates \
-  jq \
-  icu-libs \
-  less \
-  vim
 
 RUN update-ca-certificates
 

@@ -1,7 +1,7 @@
 # 
 # builder - first stage to build the application
 # 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.1 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /src
 
 COPY . .
@@ -12,7 +12,7 @@ RUN dotnet publish "web/TripViewer.csproj" -c Release -o /publish
 # 
 # runtime - build final runtime image
 # 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 
 ARG IMAGE_CREATE_DATE
 ARG IMAGE_VERSION
@@ -35,13 +35,6 @@ LABEL org.opencontainers.image.title="TripInsights - TripViewer Site" \
       org.opencontainers.image.source="https://github.com/Azure-Samples/openhack-containers.git" \
       org.opencontainers.image.revision=$IMAGE_SOURCE_REVISION 
 
-# add debugging utilities
-RUN apk --no-cache add \
-  curl \
-  ca-certificates \
-  jq \
-  less \
-  vim
 
 # add the application to the container
 WORKDIR /app

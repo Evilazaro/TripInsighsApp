@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using System.Net.Http.Json;
     using System.Threading.Tasks;
 
     public class UserStore : BaseStore//, IBaseStore<User>
@@ -21,7 +22,7 @@
             if (response.IsSuccessStatusCode)
             {
                 response.Content.Headers.ContentType.MediaType = "application/json";
-                user = await response.Content.ReadAsAsync<User>();
+                user = await response.Content.ReadFromJsonAsync<User>();
             }
             return user;
         }

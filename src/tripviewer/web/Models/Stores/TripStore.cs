@@ -3,6 +3,7 @@
     using Simulator.DataObjects;
     using System.Collections.Generic;
     using System.Net.Http;
+    using System.Net.Http.Json;
     using System.Threading.Tasks;
 
     public class TripStore : BaseStore//, IBaseStore<Trip>
@@ -19,7 +20,7 @@
             if (response.IsSuccessStatusCode)
             {
                 response.Content.Headers.ContentType.MediaType = "application/json";
-                trip = await response.Content.ReadAsAsync<Trip>();
+                trip = await response.Content.ReadFromJsonAsync<Trip>();
             }
             return trip;
         }
@@ -31,7 +32,7 @@
             if (response.IsSuccessStatusCode)
             {
                 response.Content.Headers.ContentType.MediaType = "application/json";
-                trips = await response.Content.ReadAsAsync<List<Trip>>();
+                trips = await response.Content.ReadFromJsonAsync<List<Trip>>();
             }
             return trips;
         }

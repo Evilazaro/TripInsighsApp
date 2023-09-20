@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node
 
 ARG IMAGE_CREATE_DATE
 ARG IMAGE_VERSION
@@ -23,14 +23,6 @@ LABEL org.opencontainers.image.title="Trip Insights - User Profile API" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.source="https://github.com/Azure-Samples/openhack-containers.git" \
       org.opencontainers.image.revision=$IMAGE_SOURCE_REVISION 
-
-# add debugging utilities
-RUN apk --no-cache add \
-  curl \
-  ca-certificates \
-  jq \
-  less \
-  vim
 
 # bundle app and install dependencies 
 COPY . /app

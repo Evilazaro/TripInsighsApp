@@ -4,7 +4,7 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-# Note: You can use any Debian/Ubuntu based image you want. Using the microsoft base Ubuntu image.
+# Note: You can use any Debian/ubuntu based image you want. Using the microsoft base ubuntu image.
 FROM mcr.microsoft.com/vscode/devcontainers/base:focal
 
 # Avoid warnings by switching to noninteractive
