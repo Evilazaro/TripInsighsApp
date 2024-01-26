@@ -1,10 +1,10 @@
 version: '3'
 services:
-  poi:
+  poi-api:
     build:
       context: ../src/poi
       dockerfile: ../../dockerfiles/Dockerfile_3
-    image: tripinsights/poi:1.0
+    image: tripinsights/poi-api:1.0
 
   trips:
     build:
@@ -24,8 +24,8 @@ services:
       dockerfile: ../../dockerfiles/Dockerfile_2
     image: tripinsights/userprofile:1.0
 
-  tripviewer:
+  webapp:
     build:
       context: ../src/tripviewer
       dockerfile: ../../dockerfiles/Dockerfile_1
-    image: tripinsights/tripviewer:1.0
+    image: tripinsights/webapp:1.0

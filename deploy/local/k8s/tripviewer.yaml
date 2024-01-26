@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: tripviewer
-        image: tripinsights/tripviewer:1.0
+        image: tripinsights/webapp:1.0
         resources:
         ports:
         - containerPort: 80

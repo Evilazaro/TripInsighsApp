@@ -1,0 +1,53 @@
+version: '3.4'
+
+services:
+  poi-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    networks:
+      - tripInsights-vnet
+    ports:
+      - "8080"
+    volumes:
+      - poi-api-Data:/app:rw
+      - poi-api-UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - poi-api-Https:/home/app/.aspnet/https:ro    
+  webapp:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    networks:
+      - tripInsights-vnet
+    ports:
+      - "8080"
+    volumes:
+      - webapp-UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - webapp-Https:/home/app/.aspnet/https:ro
+
+
+networks:
+  tripInsights-vnet:
+    name: tripInsights-vnet
+    driver: bridge
+
+volumes:
+  poi-api-Data:
+    name: poi-api-Data
+    driver: local
+
+  poi-api-UserSecrets:
+    name: poi-api-UserSecrets
+    driver: local
+
+  poi-api-Https:
+    name: poi-api-Https
+    driver: local
+
+  webapp-UserSecrets:
+    name: webapp-UserSecrets
+    driver: local
+
+  webapp-Https:
+    name: webapp-Https
+    driver: local

@@ -58,19 +58,19 @@ The value for a configuration variable may be specified via an environment varia
 Simple build:
 
 ```
-docker build -f Dockerfile -t "tripinsights/poi:1.0" .
+docker build -f Dockerfile -t "tripinsights/poi-api:1.0" .
 ```
 
 To build the image for release:
 
 Bash
 ```bash
-docker build --no-cache --build-arg IMAGE_VERSION="1.0" --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" --build-arg IMAGE_SOURCE_REVISION="`git rev-parse HEAD`" -f Dockerfile -t "tripinsights/poi:1.0" .
+docker build --no-cache --build-arg IMAGE_VERSION="1.0" --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" --build-arg IMAGE_SOURCE_REVISION="`git rev-parse HEAD`" -f Dockerfile -t "tripinsights/poi-api:1.0" .
 ```
 
 Powershell
 ```powershell
-docker build --no-cache --build-arg IMAGE_VERSION="1.0" --build-arg IMAGE_CREATE_DATE="$(Get-Date((Get-Date).ToUniversalTime()) -UFormat '%Y-%m-%dT%H:%M:%SZ')" --build-arg IMAGE_SOURCE_REVISION="$(git rev-parse HEAD)" -f Dockerfile -t "tripinsights/poi:1.0" .
+docker build --no-cache --build-arg IMAGE_VERSION="1.0" --build-arg IMAGE_CREATE_DATE="$(Get-Date((Get-Date).ToUniversalTime()) -UFormat '%Y-%m-%dT%H:%M:%SZ')" --build-arg IMAGE_SOURCE_REVISION="$(git rev-parse HEAD)" -f Dockerfile -t "tripinsights/poi-api:1.0" .
 ```
 
 The docker build will run an integration stage (`FROM build-env AS integration-test`) where the application is run on the `WEB_INTEGRATION_PORT` port specified in the dockerfile. This should not conflict with anything on most machines. If you have a conflict with something running on your local machine, set the environment variable `WEB_INTEGRATION_PORT` to another unused port for the integration test.
@@ -79,11 +79,11 @@ To run the image
 
 ```bash
 # Example 1 - Set config values via environment variables
-docker run -d -p 8080:80 --name poi -e "SQL_PASSWORD=$SQL_PASSWORD" -e "SQL_SERVER=$SQL_SERVER" -e "ASPNETCORE_ENVIRONMENT=Production" tripinsights/poi:1.0
+docker run -d -p 8080:80 --name poi -e "SQL_PASSWORD=$SQL_PASSWORD" -e "SQL_SERVER=$SQL_SERVER" -e "ASPNETCORE_ENVIRONMENT=Production" tripinsights/poi-api:1.0
 
 # Example 2 - Set configuration via files. Server will expect config values in files like /secrets/SQL_USER.
 # The secrets must be mounted from a host volume (eg. $HOST_FOLDER) into the /secrets container volume.
-docker run -d -p 8080:80 --name poi -v $HOST_FOLDER:/secrets -e "ASPNETCORE_ENVIRONMENT=Production" tripinsights/poi:1.0
+docker run -d -p 8080:80 --name poi -v $HOST_FOLDER:/secrets -e "ASPNETCORE_ENVIRONMENT=Production" tripinsights/poi-api:1.0
 ```
 
 ## Testing

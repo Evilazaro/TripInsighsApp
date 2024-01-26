@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  poi-api:
+    image: ${DOCKER_REGISTRY-}poi-api
+    build:
+      context: .
+      dockerfile: src/poi/web/Dockerfile
+
+  webapp:
+    image: ${DOCKER_REGISTRY-}tripviewer
+    build:
+      context: .
+      dockerfile: src/tripviewer/web/Dockerfile
+
