@@ -1,7 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace poi.Models
+﻿namespace poi.Models
 {
     public class Healthcheck
     {

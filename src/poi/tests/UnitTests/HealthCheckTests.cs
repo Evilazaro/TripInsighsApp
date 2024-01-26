@@ -1,6 +1,5 @@
-using System;
-using Xunit;
 using poi.Models;
+using Xunit;
 
 namespace UnitTests
 {
