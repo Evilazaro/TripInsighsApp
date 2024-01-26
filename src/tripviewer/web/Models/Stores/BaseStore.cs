@@ -4,8 +4,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
-    using System.Collections.Generic;
-    
+
 
     public class BaseStore
         //<T> : IBaseStore<T> where T : class, IBaseDataObject, new()

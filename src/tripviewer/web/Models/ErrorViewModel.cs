@@ -1,5 +1,3 @@
-using System;
-
 namespace TripViewer.Models
 {
     public class ErrorViewModel
